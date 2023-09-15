@@ -158,7 +158,7 @@ def main():
 
 
 
-        res = str(st.radio("Generate Topics",["no","yes"]))
+        res = str(st.radio("Generate key search",["no","yes"]))
 
         if df_file == None:
             pass
