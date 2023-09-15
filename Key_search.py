@@ -27,7 +27,7 @@ from pyxlsb import open_workbook as open_xlsb
 
 #page config
 st.set_page_config(page_title="Key word search",page_icon="🕵️‍♂️",layout="wide")
-logo_path = r"C:\Users\BrunoMalta\OneDrive - Brand Delta\Desktop\Testes\brand_logo.png"
+logo_path = "brand_logo.png"
 image = Image.open(logo_path)
 
 col1, col2 = st.columns([4, 1])  # Adjust the width ratios as needed
