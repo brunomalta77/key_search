@@ -249,7 +249,7 @@ def main():
                         
                         st.write(df.head(10))
                         df_xlsx = to_excel(df)
-                        st.download_button(label='📥 Download Current words search', data=df_xlsx, file_name= f"test.xlsx")
+                        st.download_button(label='📥 Download Current words search', data=df_xlsx, file_name= f"Key_word_search.xlsx")
 
   
 
