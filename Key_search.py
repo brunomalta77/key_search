@@ -85,7 +85,7 @@ def main():
         df_file = st.file_uploader("Upload a Excel/Parquet file")
         if df_file == None:
             st.warning("Please upload you excel/parquet file")
-            st.warning("The file must have a column named --cleaned message--")
+            st.warning("The file must have a column named --conversation_stream--")
         else:
             df = read_excel_parquet(df_file)
         
@@ -163,7 +163,7 @@ def main():
 
 
         # Generate topics. 
-        res = str(st.radio("Generate Topics",["no","yes"]))
+        res = str(st.radio("Search volume",["no","yes"]))
 
         if df_file == None:
             pass
