@@ -61,10 +61,6 @@ def to_excel(df):
 
 
 
-
-
-
-
 #-----------------------------------------------------------------------------------------------------------------------
 #---------------------------------------------------------------------------------------------------------------------
 def main():
@@ -177,6 +173,11 @@ def main():
                 
                 # one list 
                 if int(st.session_state.list_number) == 1:   
+                    # creating the progress bar
+                    progress_bar = st.progress(0)
+                    total_iterations = len(df)
+
+                    
                     pattern = re.compile("|".join(st.session_state.list_1))
                     pattern_name = "list_1_count"
                     df[pattern_name]=0
@@ -189,6 +190,10 @@ def main():
                         else:
                             df[pattern_name][index] = 1
                             df["list_1_words"][index]= set(word_res)
+                        
+                        progress = (index + 1) / total_iterations
+                        progress_bar.progress(progress)
+        
                     
                     st.write(df.head(25))
                     df_xlsx = to_excel(df)
@@ -197,6 +202,11 @@ def main():
 
                 # two lists
                 if int(st.session_state.list_number) == 2:
+                    
+                    progress_bar = st.progress(0)
+                    total_iterations = len(df)
+                    
+                    
                     pattern_1 = re.compile("|".join(st.session_state.list_1))
                     pattern_name_1 = "list_1_count"
                     
@@ -227,12 +237,20 @@ def main():
                             df[pattern_name_2][index] = 1
                             df["list_2_words"][index]= set(word_res_2)
 
+                        progress = (index + 1) / total_iterations
+                        progress_bar.progress(progress)
+                        
                     st.write(df.head(25))
                     df_xlsx = to_excel(df)
                     st.download_button(label='📥 Download Current words search', data=df_xlsx, file_name= f"test.xlsx")
 
             # 3 lists 
                 if int(st.session_state.list_number) == 3:
+                         progress_bar = st.progress(0)
+                        total_iterations = len(df)
+                    
+                    
+                    
                         pattern_1 = re.compile("|".join(st.session_state.list_1))
                         pattern_name_1 = "list_1_count"
                         
@@ -276,6 +294,9 @@ def main():
                                 df[pattern_name_3][index] = 1
                                 df["list_3_words"][index]= set(word_res_3)
 
+                            progress = (index + 1) / total_iterations
+                            progress_bar.progress(progress)
+                        
 
                         st.write(df.head(25))
                         df_xlsx = to_excel(df)
