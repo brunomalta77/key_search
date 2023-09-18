@@ -67,7 +67,6 @@ def to_excel(df):
 
 #-----------------------------------------------------------------------------------------------------------------------
 #---------------------------------------------------------------------------------------------------------------------
-
 def main():
     with st.container():
         #Global variables
@@ -86,8 +85,7 @@ def main():
         if 'button' not in st.session_state:
             st.session_state.button = None
 
-       
-        
+
         df_file = st.file_uploader("Upload a Excel/Parquet file")
         if df_file == None:
             st.warning("Please upload you excel/parquet file")
@@ -97,7 +95,7 @@ def main():
         
      
         st.session_state.list_number = st.radio("How many list of words do you want?",["1","2","3"])
-        
+        # List number 1 
         if int(st.session_state.list_number) == 1:
             res_delete = st.radio("Do you want to delete what is in the column 1 ?",["no","yes"])
             if res_delete == "yes":
@@ -107,9 +105,11 @@ def main():
                 word = st.text_input("Enter your word:")
                 if word != "":
                     if word not in st.session_state.list_1:
-                        st.session_state.list_1.append(word)       
-                st.write(st.session_state.list_1)
-
+                        word = word.split(",")
+                        for x in word:
+                            st.session_state.list_1.append(fr"\b{x.lower()}\b")       
+                            st.write(x.lower())
+        # List number 2 
         if int(st.session_state.list_number) == 2:
             res_delete = st.radio("Do you want to delete what is in the column 1 and 2  ?",["no","yes"])
             if res_delete == "yes":
@@ -120,15 +120,19 @@ def main():
                 word_1 = st.text_input("Enter your word for the first list:")
                 if word_1 != "":
                     if word_1 not in st.session_state.list_1:
-                        st.session_state.list_1.append(word_1.lower())       
-                st.write(st.session_state.list_1)
+                        word_1 = word_1.split(",")
+                        for x in word_1:
+                            st.session_state.list_1.append(fr"\b{x.lower()}\b")       
+                            st.write(x.lower())
                 
                 word_2 = st.text_input("Enter your word for the second list:")
                 if word_2 != "":
                     if word_2 not in st.session_state.list_2:
-                        st.session_state.list_2.append(word_2.lower())       
-                st.write(st.session_state.list_2)
-            
+                        word_2 = word_2.split(",")
+                        for x in word_2:
+                            st.session_state.list_2.append(fr"\b{x.lower()}\b")       
+                            st.write(x.lower())
+        #List number 3 
         if int(st.session_state.list_number) == 3:
             res_delete = st.radio("Do you want to delete what is in the column 1, 2  and 3  ?",["no","yes"])
             if res_delete == "yes":
@@ -140,117 +144,142 @@ def main():
                 word_1 = st.text_input("Enter your word for the first list:")
                 if word_1 != "":
                     if word_1 not in st.session_state.list_1:
-                        st.session_state.list_1.append(word_1.lower())       
-                st.write(st.session_state.list_1)
-                
+                        word_1 = word_1.split(",")
+                        for x in word_1:
+                            st.session_state.list_1.append(fr"\b{x.lower()}\b")       
+                            st.write(x.lower())
+
                 word_2 = st.text_input("Enter your word for the second list:")
                 if word_2 != "":
                     if word_2 not in st.session_state.list_2:
-                        st.session_state.list_2.append(word_2.lower())       
-                st.write(st.session_state.list_2)
+                        word_2 = word_2.split(",")
+                        for x in word_2:
+                            st.session_state.list_2.append(fr"\b{x.lower()}\b")       
+                            st.write(x.lower())
                 
                 word_3 = st.text_input("Enter your word for the third list:")
                 if word_3 != "":
                     if word_3 not in st.session_state.list_3:
-                        st.session_state.list_3.append(word_3.lower())       
-                st.write(st.session_state.list_3)
+                        word_3 = word_3.split(",")
+                        for x in word_3:
+                            st.session_state.list_3.append(fr"\b{x.lower()}\b")       
+                            st.write(x.lower())
 
 
-
-
-        res = str(st.radio("Generate key search",["no","yes"]))
+        # Generate topics. 
+        res = str(st.radio("Generate Topics",["no","yes"]))
 
         if df_file == None:
             pass
         else:
-            conv = list(df["cleaned_message"])
+            conv = list(df["conversation_stream"].apply(lambda x : str(x).lower()))
             if res == "yes":
+                
                 # one list 
                 if int(st.session_state.list_number) == 1:   
                     pattern = re.compile("|".join(st.session_state.list_1))
-                    pattern_name = "|".join(st.session_state.list_1)
+                    pattern_name = "list_1_count"
                     df[pattern_name]=0
+                    df["list_1_words"] = 0
                     for index in range(0,len(df)):
-                        word_res = len(re.findall(pattern,str(conv[index])))
-                        if word_res > 0:
-                            df[pattern_name][index] = 1 
+                        word_res = re.findall(pattern,str(conv[index]))
+                        if word_res == []:
+                            df[pattern_name][index] = 0 
+                            df["list_1_words"][index]=0
                         else:
-                            df[pattern_name][index] = 0
-                    st.write(df.head(10))
+                            df[pattern_name][index] = 1
+                            df["list_1_words"][index]= set(word_res)
+                    
+                    st.write(df.head(25))
                     df_xlsx = to_excel(df)
                     st.download_button(label='📥 Download Current words search', data=df_xlsx, file_name= f"test.xlsx")
                         
 
-
-
                 # two lists
                 if int(st.session_state.list_number) == 2:
                     pattern_1 = re.compile("|".join(st.session_state.list_1))
-                    pattern_name_1 = "|".join(st.session_state.list_1)
+                    pattern_name_1 = "list_1_count"
                     
                     pattern_2 = re.compile("|".join(st.session_state.list_2))
-                    pattern_name_2 = "|".join(st.session_state.list_2)
+                    pattern_name_2 =  "list_2_counts"
 
 
                     df[pattern_name_1]=0
                     df[pattern_name_2]=0
+
+                    df["list_1_words"] = 0
+                    df["list_2_words"] = 0
                     
                     for index in range(0,len(df)):
-                        word_res_1 = len(re.findall(pattern_1,str(conv[index])))
-                        if word_res_1 > 0:
-                            df[pattern_name_1][index] = 1 
+                        word_res_1 = re.findall(pattern_1,str(conv[index]))
+                        if word_res_1 == []:
+                            df[pattern_name_1][index] = 0 
+                            df["list_1_words"][index]= 0
                         else:
-                            df[pattern_name_1][index] = 0
-                        
-                        word_res_2 = len(re.findall(pattern_2,str(conv[index])))
-                        if word_res_2 > 0:
-                            df[pattern_name_2][index] = 1 
-                        else:
-                            df[pattern_name_2][index] = 0
+                            df[pattern_name_1][index] = 1
+                            df["list_1_words"][index]= set(word_res_1)
                     
-                    st.write(df.head(10))
+                        word_res_2 = re.findall(pattern_2,str(conv[index]))
+                        if word_res_2 == []:
+                            df[pattern_name_2][index] = 0 
+                            df["list_2_words"][index]= 0
+                        else:
+                            df[pattern_name_2][index] = 1
+                            df["list_2_words"][index]= set(word_res_2)
+
+                    st.write(df.head(25))
                     df_xlsx = to_excel(df)
                     st.download_button(label='📥 Download Current words search', data=df_xlsx, file_name= f"test.xlsx")
 
             # 3 lists 
                 if int(st.session_state.list_number) == 3:
                         pattern_1 = re.compile("|".join(st.session_state.list_1))
-                        pattern_name_1 = "|".join(st.session_state.list_1)
+                        pattern_name_1 = "list_1_count"
                         
                         pattern_2 = re.compile("|".join(st.session_state.list_2))
-                        pattern_name_2 = "|".join(st.session_state.list_2)
+                        pattern_name_2 =  "list_2_counts"
 
-                        pattern_3 = re.compile("|".join(st.session_state.list_3))
-                        pattern_name_3 = "|".join(st.session_state.list_3)
-
-
+                        pattern_3 = re.compile("|".join(st.session_state.list_1))
+                        pattern_name_3 = "list_3_count"
+                        
                         df[pattern_name_1]=0
                         df[pattern_name_2]=0
                         df[pattern_name_3]=0
-                        
-                        for index in range(0,len(df)):
-                            word_res_1 = len(re.findall(pattern_1,str(conv[index])))
-                            if word_res_1 > 0:
-                                df[pattern_name_1][index] = 1 
-                            else:
-                                df[pattern_name_1][index] = 0
-                            
-                            word_res_2 = len(re.findall(pattern_2,str(conv[index])))
-                            if word_res_2 > 0:
-                                df[pattern_name_2][index] = 1 
-                            else:
-                                df[pattern_name_2][index] = 0
-                        
-                            word_res_3 = len(re.findall(pattern_3,str(conv[index])))
-                            if word_res_3 > 0:
-                                df[pattern_name_3][index] = 1 
-                            else:
-                                df[pattern_name_3][index] = 0
-                        
-                        st.write(df.head(10))
-                        df_xlsx = to_excel(df)
-                        st.download_button(label='📥 Download Current words search', data=df_xlsx, file_name= f"Key_word_search.xlsx")
 
+                        df["list_1_words"] = 0
+                        df["list_2_words"] = 0
+                        df["list_3_words"] = 0
+
+                        for index in range(0,len(df)):
+                            word_res_1 = re.findall(pattern_1,str(conv[index]))
+                            if word_res_1 == []:
+                                df[pattern_name_1][index] = 0 
+                                df["list_1_words"][index]= 0
+                            else:
+                                df[pattern_name_1][index] = 1
+                                df["list_1_words"][index]= set(word_res_1)
+                            
+                            word_res_2 = re.findall(pattern_2,str(conv[index]))
+                            if word_res_2 == []:
+                                df[pattern_name_2][index] = 0 
+                                df["list_2_words"][index]= 0
+                            else:
+                                df[pattern_name_2][index] = 1
+                                df["list_2_words"][index]= set(word_res_2)
+                        
+
+                            word_res_3 = re.findall(pattern_3,str(conv[index]))
+                            if word_res_3 == []:
+                                df[pattern_name_3][index] = 0 
+                                df["list_3_words"][index]= 0
+                            else:
+                                df[pattern_name_3][index] = 1
+                                df["list_3_words"][index]= set(word_res_3)
+
+
+                        st.write(df.head(25))
+                        df_xlsx = to_excel(df)
+                        st.download_button(label='📥 Download Current words search', data=df_xlsx, file_name= f"test.xlsx")
   
 
 
