@@ -246,7 +246,7 @@ def main():
 
             # 3 lists 
                 if int(st.session_state.list_number) == 3:
-                         progress_bar = st.progress(0)
+                        progress_bar = st.progress(0)
                         total_iterations = len(df)
                     
                     
