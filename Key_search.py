@@ -162,6 +162,8 @@ def main():
                             st.write(x.lower())
 
 
+        
+        res_zero = str(st.radio("remove the zeros?",["no","yes"]))
         # Generate topics. 
         res = str(st.radio("Search volume",["no","yes"]))
 
@@ -169,7 +171,7 @@ def main():
             pass
         else:
             conv = list(df["conversation_stream"].apply(lambda x : str(x).lower()))
-            if res == "yes":
+             if st.button("Key search"):
                 
                 # one list 
                 if int(st.session_state.list_number) == 1:   
@@ -195,10 +197,20 @@ def main():
                         progress_bar.progress(progress)
         
                     
+                    
+                    percentage = (sum(df[pattern_name])/len(df[pattern_name])) * 100 
+                    st.write(f'Relative percentage list 1 %  > {round(percentage,3)}')
                     st.write(df.head(25))
-                    df_xlsx = to_excel(df)
-                    st.download_button(label='📥 Download Current words search', data=df_xlsx, file_name= f"test.xlsx")
-                        
+                    
+                    if res_zero == "yes":
+                        df_optional = df[df["list_1_words"] != 0] 
+                        df_xlsx = to_excel(df_optional)
+                        st.download_button(label='📥 Download Current words search', data=df_xlsx, file_name= f"test.xlsx")
+
+                    if res_zero =="no":
+                        df_xlsx = to_excel(df)
+                        st.download_button(label='📥 Download Current words search', data=df_xlsx, file_name= f"test.xlsx")
+                    
 
                 # two lists
                 if int(st.session_state.list_number) == 2:
@@ -240,9 +252,20 @@ def main():
                         progress = (index + 1) / total_iterations
                         progress_bar.progress(progress)
                         
+                    percentage_1 = (sum(df[pattern_name_1])/len(df[pattern_name_1])) * 100
+                    percentage_2 = (sum(df[pattern_name_2])/len(df[pattern_name_2])) *100 
+                    st.write(f'Relative percentage list 1 > {round(percentage_1,3)}')
+                    st.write(f'Relative percentage list 2 > {round(percentage_2,3)}')
                     st.write(df.head(25))
-                    df_xlsx = to_excel(df)
-                    st.download_button(label='📥 Download Current words search', data=df_xlsx, file_name= f"test.xlsx")
+                    
+                    if res_zero == "yes":
+                        df_optional = df[(df["list_1_words"] != 0) & (df["list_2_words"] != 0)] 
+                        df_xlsx = to_excel(df_optional)
+                        st.download_button(label='📥 Download Current words search', data=df_xlsx, file_name= f"test.xlsx",key=2)
+
+                    if res_zero =="no":
+                        df_xlsx = to_excel(df)
+                        st.download_button(label='📥 Download Current words search', data=df_xlsx, file_name= f"test.xlsx",key=22)
 
             # 3 lists 
                 if int(st.session_state.list_number) == 3:
@@ -297,12 +320,25 @@ def main():
                             progress = (index + 1) / total_iterations
                             progress_bar.progress(progress)
                         
-
+                        percentage_1 = (sum(df[pattern_name_1])/len(df[pattern_name_1])) * 100
+                        percentage_2 = (sum(df[pattern_name_2])/len(df[pattern_name_2])) * 100 
+                        percentage_3 = (sum(df[pattern_name_3])/len(df[pattern_name_3])) * 100
+                        st.write(f'Relative percentage list 1-> {round(percentage_1,3)}')
+                        st.write(f'Relative percentage list 2-> {round(percentage_2,3)}')
+                        st.write(f'Relative percentage list 3-> {round(percentage_3,3)}')
                         st.write(df.head(25))
-                        df_xlsx = to_excel(df)
-                        st.download_button(label='📥 Download Current words search', data=df_xlsx, file_name= f"test.xlsx")
-  
+                       
+                        
+                        if res_zero == "yes":
+                            df_optional = df[(df["list_1_words"] != 0) & (df["list_2_words"] != 0) & (df["list_3_words"] != 0)] 
+                            df_xlsx = to_excel(df_optional)
+                            st.download_button(label='📥 Download Current words search', data=df_xlsx, file_name= f"test.xlsx",key=1233)
 
+                        if res_zero =="no":
+                            df_xlsx = to_excel(df)
+                            st.download_button(label='📥 Download Current words search', data=df_xlsx, file_name= f"test.xlsx",key=1213)
+
+    
 
 
 if __name__ == "__main__":
