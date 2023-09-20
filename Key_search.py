@@ -197,7 +197,7 @@ def main():
                     
                     
                     percentage = (sum(df[pattern_name])/len(df[pattern_name])) * 100 
-                    st.write(f'Relative percentage list 1 %  > {round(percentage,3)}')
+                    st.write(f'Relative percentage list 1   > {round(percentage,3)} %')
                     st.write(df.head(25))
                     
                     if res_zero == "yes":
@@ -252,8 +252,8 @@ def main():
                         
                     percentage_1 = (sum(df[pattern_name_1])/len(df[pattern_name_1])) * 100
                     percentage_2 = (sum(df[pattern_name_2])/len(df[pattern_name_2])) *100 
-                    st.write(f'Relative percentage list 1 > {round(percentage_1,3)}')
-                    st.write(f'Relative percentage list 2 > {round(percentage_2,3)}')
+                    st.write(f'Relative percentage list 1 > {round(percentage_1,3)} %')
+                    st.write(f'Relative percentage list 2 > {round(percentage_2,3)} %')
                     st.write(df.head(25))
                     
                     if res_zero == "yes":
@@ -321,9 +321,9 @@ def main():
                         percentage_1 = (sum(df[pattern_name_1])/len(df[pattern_name_1])) * 100
                         percentage_2 = (sum(df[pattern_name_2])/len(df[pattern_name_2])) * 100 
                         percentage_3 = (sum(df[pattern_name_3])/len(df[pattern_name_3])) * 100
-                        st.write(f'Relative percentage list 1-> {round(percentage_1,3)}')
-                        st.write(f'Relative percentage list 2-> {round(percentage_2,3)}')
-                        st.write(f'Relative percentage list 3-> {round(percentage_3,3)}')
+                        st.write(f'Relative percentage list 1-> {round(percentage_1,3)} %')
+                        st.write(f'Relative percentage list 2-> {round(percentage_2,3)} %')
+                        st.write(f'Relative percentage list 3-> {round(percentage_3,3)} %')
                         st.write(df.head(25))
                        
                         
