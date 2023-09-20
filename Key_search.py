@@ -164,8 +164,6 @@ def main():
 
         
         res_zero = str(st.radio("remove the zeros?",["no","yes"]))
-        # Generate topics. 
-        res = str(st.radio("Search volume",["no","yes"]))
 
         if df_file == None:
             pass
