@@ -189,7 +189,7 @@ def main():
                             df["list_1_words"][index]=0
                         else:
                             df[pattern_name][index] = 1
-                            df["list_1_words"][index]= set(word_res)
+                            df["list_1_words"][index]= set(listword_res))
                         
                         progress = (index + 1) / total_iterations
                         progress_bar.progress(progress)
@@ -237,7 +237,7 @@ def main():
                             df["list_1_words"][index]= 0
                         else:
                             df[pattern_name_1][index] = 1
-                            df["list_1_words"][index]= set(word_res_1)
+                            df["list_1_words"][index]= set(list(word_res_1))
                     
                         word_res_2 = re.findall(pattern_2,str(conv[index]))
                         if word_res_2 == []:
@@ -245,7 +245,7 @@ def main():
                             df["list_2_words"][index]= 0
                         else:
                             df[pattern_name_2][index] = 1
-                            df["list_2_words"][index]= set(word_res_2)
+                            df["list_2_words"][index]= set(list(word_res_2))
 
                         progress = (index + 1) / total_iterations
                         progress_bar.progress(progress)
@@ -296,7 +296,7 @@ def main():
                                 df["list_1_words"][index]= 0
                             else:
                                 df[pattern_name_1][index] = 1
-                                df["list_1_words"][index]= set(word_res_1)
+                                df["list_1_words"][index]= set(list(word_res_1))
                             
                             word_res_2 = re.findall(pattern_2,str(conv[index]))
                             if word_res_2 == []:
@@ -304,7 +304,7 @@ def main():
                                 df["list_2_words"][index]= 0
                             else:
                                 df[pattern_name_2][index] = 1
-                                df["list_2_words"][index]= set(word_res_2)
+                                df["list_2_words"][index]= set(list(word_res_2))
                         
 
                             word_res_3 = re.findall(pattern_3,str(conv[index]))
@@ -313,7 +313,7 @@ def main():
                                 df["list_3_words"][index]= 0
                             else:
                                 df[pattern_name_3][index] = 1
-                                df["list_3_words"][index]= set(word_res_3)
+                                df["list_3_words"][index]= set(list(word_res_3))
 
                             progress = (index + 1) / total_iterations
                             progress_bar.progress(progress)
