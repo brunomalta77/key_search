@@ -1,5 +1,5 @@
 openai
-pandas 
+pandas==1.5.3
 numpy 
 seaborn 
 python-dotenv
