@@ -189,7 +189,7 @@ def main():
                             df["list_1_words"][index]=0
                         else:
                             df[pattern_name][index] = 1
-                            df["list_1_words"][index]= set(listword_res))
+                            df["list_1_words"][index]= set(list(word_res))
                         
                         progress = (index + 1) / total_iterations
                         progress_bar.progress(progress)
